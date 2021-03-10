@@ -40,8 +40,8 @@ public class WeatherControllerIntegrationTest {
     @DisplayName("GET /widgets success with information ordered by id desc")
     public void shouldReturnWeatherInformationWhenCallGet() throws Exception {
 
-        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}]";
-        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}";
+        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}]";
+        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}";
         String expected = secondRow + "," + firstRow;
 
         List<WeatherInformation> responseRepository = Arrays.asList(DummyWeatherInformation.build(37891, "Dallas"), DummyWeatherInformation.build(37892, "Austin"));
@@ -57,7 +57,7 @@ public class WeatherControllerIntegrationTest {
     @DisplayName("GET by Id /widgets/1")
     public void shouldReturnWeatherInformationWhenCallById() throws Exception {
 
-        String expected = "{\"id\":1,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}";
+        String expected = "{\"id\":1,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}";
 
         WeatherInformation responseRepository = DummyWeatherInformation.build(1L, "Dallas");
         doReturn(Optional.of(responseRepository)).when(repository).findById(anyLong());
@@ -82,8 +82,8 @@ public class WeatherControllerIntegrationTest {
     @DisplayName("GET by date /weathers?date=2020-09-15")
     public void shouldReturnWeatherInformationWhenCallByDate() throws Exception {
 
-        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}]";
-        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}";
+        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}]";
+        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}";
         String expected = secondRow + "," + firstRow;
 
         List<WeatherInformation> responseRepository = Arrays.asList(DummyWeatherInformation.build(37891, "Dallas"), DummyWeatherInformation.build(37892, "Austin"));
@@ -98,8 +98,8 @@ public class WeatherControllerIntegrationTest {
     @DisplayName("GET between dates /weathers/report?startDate=2020-01-12&endDate=2020-09-30")
     public void shouldReturnWeatherInformationWhenCallBetweenDate() throws Exception {
 
-        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}]";
-        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"temperature\":[89.7,84.3,91.2,93.1]}";
+        String firstRow = "{\"id\":37891,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Dallas\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}]";
+        String secondRow = "[{\"id\":37892,\"location\":{\"lat\":32.7767,\"lon\":96.797,\"city\":\"Austin\",\"state\":\"Texas\"},\"date\":\"2020-09-15\",\"lowest\":84.3,\"highest\":93.1,\"temperature\":[89.7,84.3,91.2,93.1]}";
         String expected = secondRow + "," + firstRow;
 
         List<WeatherInformation> responseRepository = Arrays.asList(DummyWeatherInformation.build(37891, "Dallas"), DummyWeatherInformation.build(37892, "Austin"));
