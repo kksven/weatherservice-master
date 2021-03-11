@@ -1,5 +1,6 @@
 package com.training.weatherservice.controller;
 
+import com.training.weatherservice.aspect.annotation.DateRangeValidator;
 import com.training.weatherservice.aspect.annotation.Monitor;
 import com.training.weatherservice.business.WeatherService;
 import com.training.weatherservice.business.dto.Weather;
@@ -59,10 +60,15 @@ public class WeatherController {
             params = {"startDate", "endDate"},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @DateRangeValidator
     public List<Weather> getWeatherBetweenDates(
-            @RequestParam(value ="startDate", required = false, defaultValue = "#{T(java.time.LocalDate).now().minusDays(30)}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam(value ="endDate", required = false, defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
-        return weatherService.getBetweenDate(startDate, endDate);
+            @RequestParam(value ="startDate", required = false) String startDate,
+            @RequestParam(value ="endDate", required = false) String endDate) {
+
+        LocalDate from = LocalDate.parse(startDate);
+        LocalDate to = LocalDate.parse(endDate);
+
+        return weatherService.getBetweenDate(from, to);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -94,4 +100,5 @@ public class WeatherController {
                           @RequestBody WeatherInformation request) {
         return weatherService.update(weatherId, request);
     }
+
 }

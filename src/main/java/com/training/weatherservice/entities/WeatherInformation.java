@@ -1,5 +1,6 @@
 package com.training.weatherservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -33,4 +34,9 @@ public class WeatherInformation {
 
     @ElementCollection
     private List<Double> temperature;
+
+    @JsonIgnore
+    public String getCityFromLocation() {
+        return this.location.getCity();
+    }
 }

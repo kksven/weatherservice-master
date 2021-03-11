@@ -95,6 +95,22 @@ public class WeatherControllerIntegrationTest {
     }
 
     @Test
+    @DisplayName("return Bad Request when start date is invalid")
+    public void shouldReturnBadRequestWhenStartDateIsInvalid() throws Exception {
+
+        mvc.perform(MockMvcRequestBuilders.get("/weathers/report?startDate=2020-25-12&endDate=2020-09-30").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("return Bad Request when end date is invalid")
+    public void shouldReturnBadRequestWhenEndDateIsInvalid() throws Exception {
+
+        mvc.perform(MockMvcRequestBuilders.get("/weathers/report?startDate=2020-01-12&endDate=2020-09-38").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("GET between dates /weathers/report?startDate=2020-01-12&endDate=2020-09-30")
     public void shouldReturnWeatherInformationWhenCallBetweenDate() throws Exception {
 
@@ -105,7 +121,8 @@ public class WeatherControllerIntegrationTest {
         List<WeatherInformation> responseRepository = Arrays.asList(DummyWeatherInformation.build(37891, "Dallas"), DummyWeatherInformation.build(37892, "Austin"));
         doReturn(responseRepository).when(repository).findByDateBetween(any(LocalDate.class), any(LocalDate.class));
 
-        mvc.perform(MockMvcRequestBuilders.get("/weathers/report?startDate=2020-01-12&endDate=2020-09-30").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/weathers/report?startDate=2020-01-12&endDate=2020-09-30")
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(expected));
     }

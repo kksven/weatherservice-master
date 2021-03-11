@@ -1,6 +1,5 @@
 package com.training.weatherservice.business.imp;
 
-import com.training.weatherservice.aspect.annotation.Monitor;
 import com.training.weatherservice.business.WeatherService;
 import com.training.weatherservice.business.dto.Weather;
 import com.training.weatherservice.entities.WeatherInformation;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Monitor
 public class WeatherServiceImp implements WeatherService {
 
     private final WeatherRepository weatherRepository;
@@ -64,10 +62,9 @@ public class WeatherServiceImp implements WeatherService {
 
         List<Weather> weatherInformationList = weatherRepository.findByDateBetween(startDate, endDate)
                 .stream()
-                .sorted(Comparator.comparing(WeatherServiceImp::getCityFromLocation))
+                .sorted(Comparator.comparing(WeatherInformation::getCityFromLocation))
                 .map(WeatherBuilder::build)
                 .collect(Collectors.toList());
-
 
         throwDataNotFoundExceptionWhenEmptyList(weatherInformationList);
 
@@ -96,10 +93,6 @@ public class WeatherServiceImp implements WeatherService {
         throwDataNotFoundExceptionWhenNotExistId(id);
 
         weatherRepository.deleteById(id);
-    }
-
-    private static String getCityFromLocation(WeatherInformation weatherInformation) {
-        return weatherInformation.getLocation().getCity();
     }
 
     private void throwDataNotFoundExceptionWhenEmptyList(List<Weather> list){

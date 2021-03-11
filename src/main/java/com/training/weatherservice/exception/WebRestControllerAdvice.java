@@ -11,6 +11,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
+import java.util.Optional;
 
 @RestControllerAdvice
 public class WebRestControllerAdvice {
@@ -24,13 +25,14 @@ public class WebRestControllerAdvice {
         return new ResponseEntity<>(responseMsg, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class, IllegalArgumentException.class, ConstraintViolationException.class, MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({InvalidDateRequestException.class, MethodArgumentNotValidException.class, HttpMessageNotReadableException.class, IllegalArgumentException.class, ConstraintViolationException.class, MethodArgumentTypeMismatchException.class})
     @ResponseBody
     public ResponseEntity<Object> handleArgumentException(Exception ex) {
-        String badArgument = "Bad arguments";
+        String exceptionMsg = Optional.ofNullable(ex.getMessage()).orElse("");
+        String badArgument = "Bad arguments " + exceptionMsg ;
         ResponseMsg responseMsg = new ResponseMsg(new Date(), badArgument, ex.getMessage());
 
-        return  new ResponseEntity<>(responseMsg, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(responseMsg, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = Exception.class)

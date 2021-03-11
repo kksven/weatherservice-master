@@ -1,6 +1,5 @@
 package com.training.weatherservice.aspect;
 
-import com.training.weatherservice.aspect.annotation.LogMessageBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.training.weatherservice.aspect.LoggerEnum.*;

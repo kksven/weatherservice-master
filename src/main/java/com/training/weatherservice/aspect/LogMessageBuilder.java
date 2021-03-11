@@ -1,4 +1,4 @@
-package com.training.weatherservice.aspect.annotation;
+package com.training.weatherservice.aspect;
 
 import lombok.*;
 
