@@ -19,7 +19,7 @@ public class WebRestControllerAdvice {
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseBody
     public ResponseEntity<Object>  handleNotFoundException(CustomNotFoundException ex) {
-        String weatherInformationNotFound = "Not found exception";
+        String weatherInformationNotFound = "Weather Information not found";
         ResponseMsg responseMsg = new ResponseMsg(new Date(), ex.getLocalizedMessage(), weatherInformationNotFound);
 
         return new ResponseEntity<>(responseMsg, HttpStatus.NOT_FOUND);
@@ -29,7 +29,7 @@ public class WebRestControllerAdvice {
     @ResponseBody
     public ResponseEntity<Object> handleArgumentException(Exception ex) {
         String exceptionMsg = Optional.ofNullable(ex.getMessage()).orElse("");
-        String badArgument = "Bad arguments " + exceptionMsg ;
+        String badArgument = "Bad arguments" + exceptionMsg ;
         ResponseMsg responseMsg = new ResponseMsg(new Date(), badArgument, ex.getMessage());
 
         return new ResponseEntity<>(responseMsg, HttpStatus.BAD_REQUEST);

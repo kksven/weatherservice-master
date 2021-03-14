@@ -1,6 +1,8 @@
 package com.training.weatherservice.util;
 
+import java.time.LocalDate;
+
 public interface RequestDateValidator {
 
-    void validate(String dateFrom, String dateTo);
+    void validate(LocalDate from, LocalDate to);
 }

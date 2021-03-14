@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
+
 @ExtendWith(MockitoExtension.class)
 public class RangeDateValidatorTest {
 
@@ -15,32 +17,20 @@ public class RangeDateValidatorTest {
     RangeDateValidator rangeDateValidator;
 
     @Test
-    public void shouldThrowExceptionWhenInvalidFormatFromDate(){
-
-        Assertions.assertThrows(InvalidDateRequestException.class, () -> {
-            rangeDateValidator.validate("2021-24-22", "2020-01-01");
-        });
-    }
-
-    @Test
-    public void shouldThrowExceptionWhenInvalidFormatToDate(){
-
-        Assertions.assertThrows(InvalidDateRequestException.class, () -> {
-            rangeDateValidator.validate("2021-01-01", "2020-01-88");
-        });
-    }
-
-    @Test
     public void shouldThrowExceptionWhenInvalidRange(){
+        LocalDate from = LocalDate.of(2021, 01, 01);
+        LocalDate to = LocalDate.of(2020, 12, 31);
 
         Assertions.assertThrows(InvalidDateRequestException.class, () -> {
-            rangeDateValidator.validate("2021-01-01", "2020-12-31");
+            rangeDateValidator.validate(from, to);
         });
 
     }
 
     @Test
     public void shouldValidWhenRangeDate(){
-        rangeDateValidator.validate("2020-12-31", "2020-12-31");
+        LocalDate from = LocalDate.of(2020, 12, 31);
+        LocalDate to = LocalDate.of(2020, 12, 31);
+        rangeDateValidator.validate(from, to);
     }
 }

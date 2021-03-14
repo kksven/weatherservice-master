@@ -32,6 +32,7 @@ public class WeatherServiceImpTest {
     @Mock
     private WeatherRepository repository;
 
+
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
      * Tests for getAll()
      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -120,11 +121,17 @@ public class WeatherServiceImpTest {
     @DisplayName("return Weather Information between dates ")
     public void shouldCallRepositoryGetBetweenDate() {
 
+        LocalDate startDate = LocalDate.of(2021,01,01);
+        LocalDate endDate = LocalDate.of(2021,01,31);
+
         List<WeatherInformation> responseRepository = Arrays.asList(DummyWeatherInformation.build(1, "Dallas"), DummyWeatherInformation.build(2, "Austin"));
         List<Weather> expected = Arrays.asList(DummyWeatherInformation.weatherDtoBuild(2, "Austin"), DummyWeatherInformation.weatherDtoBuild(1, "Dallas"));
-        when(repository.findByDateBetween(any(),any())).thenReturn(responseRepository);
 
-        List<Weather> result = service.getBetweenDate(LocalDate.now(), LocalDate.now());
+        when(repository.findByDateBetween(any(),any())).thenReturn(responseRepository);
+        //when(dateRequestBuilder.startDate(any(String.class))).thenReturn(LocalDate.of(2021,01,01));
+        //when(dateRequestBuilder.endDate(any(String.class))).thenReturn(LocalDate.of(2021,01,31));
+
+        List<Weather> result = service.getBetweenDate(startDate, endDate);
 
         verify(repository, times(1)).findByDateBetween(any(LocalDate.class), any(LocalDate.class));
         verifyNoMoreInteractions(repository);
@@ -135,8 +142,10 @@ public class WeatherServiceImpTest {
     @Test
     @DisplayName("Throw DataNotFoundException when repository result is empty")
     public void shouldThrowExceptionCallRepositoryGetBetweenDate() {
+        LocalDate startDate = LocalDate.of(2021,01,01);
+        LocalDate endDate = LocalDate.of(2021,01,31);
 
-        Assertions.assertThrows(CustomNotFoundException.class, () -> service.getBetweenDate(LocalDate.now(), LocalDate.now()));
+        Assertions.assertThrows(CustomNotFoundException.class, () -> service.getBetweenDate(startDate, endDate));
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -178,9 +187,8 @@ public class WeatherServiceImpTest {
     public void shouldThrowDataNotFoundExceptionWhenItemToUpdateIsNotFound() {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(CustomNotFoundException.class, () -> {
-            service.update(1L, DummyWeatherInformation.build(3L, "El Paso"));
-        });
+        Assertions.assertThrows(CustomNotFoundException.class, () -> service
+                .update(1L, DummyWeatherInformation.build(3L, "El Paso")));
     }
 
     /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

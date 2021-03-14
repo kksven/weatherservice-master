@@ -18,7 +18,7 @@ public class WebRestControllerAdviceTest {
 
     @Test
     public void shouldReturnBadRequestErrorWhenIsMethodArgumentNotValidException() {
-        Exception ex = new Exception("Exception");
+        Exception ex = new Exception();
 
         ResponseEntity<Object> response = controllerAdvice.handleArgumentException(ex);
         ResponseMsg responseMsg = (ResponseMsg) response.getBody();

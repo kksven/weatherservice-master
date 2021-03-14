@@ -5,6 +5,7 @@ import com.training.weatherservice.business.dto.Weather;
 import com.training.weatherservice.entities.WeatherInformation;
 import com.training.weatherservice.exception.CustomNotFoundException;
 import com.training.weatherservice.repository.WeatherRepository;
+import com.training.weatherservice.util.DateRequestBuilder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,9 +18,11 @@ import java.util.stream.Collectors;
 public class WeatherServiceImp implements WeatherService {
 
     private final WeatherRepository weatherRepository;
+    private final DateRequestBuilder dateRequestBuilder;
 
-    public WeatherServiceImp(WeatherRepository weatherRepository) {
+    public WeatherServiceImp(WeatherRepository weatherRepository, DateRequestBuilder dateRequestBuilder) {
         this.weatherRepository = weatherRepository;
+        this.dateRequestBuilder = dateRequestBuilder;
     }
 
     @Override

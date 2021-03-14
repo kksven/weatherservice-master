@@ -57,18 +57,14 @@ public class WeatherController {
 
     @GetMapping(
             value = PATH + "/report",
-            params = {"startDate", "endDate"},
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @DateRangeValidator
     public List<Weather> getWeatherBetweenDates(
-            @RequestParam(value ="startDate", required = false) String startDate,
-            @RequestParam(value ="endDate", required = false) String endDate) {
+            @RequestParam(value ="startDate", required = false,  defaultValue = "#{T(java.time.LocalDate).now().minusDays(30)}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value ="endDate", required = false,  defaultValue = "#{T(java.time.LocalDate).now()}") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        LocalDate from = LocalDate.parse(startDate);
-        LocalDate to = LocalDate.parse(endDate);
-
-        return weatherService.getBetweenDate(from, to);
+        return weatherService.getBetweenDate(startDate, endDate);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
